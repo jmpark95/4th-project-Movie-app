@@ -13,7 +13,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
    color: "#ffff",
    [theme.breakpoints.up("xs")]: {
-      fontSize: "0.6rem",
+      fontSize: "0.85rem",
    },
    [theme.breakpoints.up("sm")]: {
       fontSize: "1rem",
@@ -43,46 +43,33 @@ export default function Toggle() {
             onChange={handleAlignment}
             aria-label="text alignment"
          >
-            <StyledToggleButton value="left" aria-label="left aligned">
-               <Link
-                  component={RouterLink}
-                  to="/"
-                  color="inherit"
-                  underline="none"
-               >
+            <StyledToggleButton
+               component={RouterLink}
+               to="/"
+               value="left"
+               aria-label="left aligned"
+            >
+               <Link color="inherit" underline="none">
                   Now Playing
                </Link>
             </StyledToggleButton>
-            <StyledToggleButton value="center" aria-label="centered">
-               <Link
-                  component={RouterLink}
-                  to="/top-rated"
-                  color="inherit"
-                  underline="none"
-               >
+            <StyledToggleButton
+               component={RouterLink}
+               to="/top-rated"
+               value="center"
+               aria-label="centered"
+            >
+               <Link color="inherit" underline="none">
                   Top Rated
                </Link>
             </StyledToggleButton>
             <StyledToggleButton
-               value="center-right"
-               aria-label="centered-right"
+               component={RouterLink}
+               to="/watchlist"
+               value="rights"
+               aria-label="right aligned"
             >
-               <Link
-                  component={RouterLink}
-                  to="/coming-soon"
-                  color="inherit"
-                  underline="none"
-               >
-                  Coming Soon
-               </Link>
-            </StyledToggleButton>
-            <StyledToggleButton value="rights" aria-label="right aligned">
-               <Link
-                  component={RouterLink}
-                  to="/watchlist"
-                  color="inherit"
-                  underline="none"
-               >
+               <Link color="inherit" underline="none">
                   Watchlist
                </Link>
             </StyledToggleButton>

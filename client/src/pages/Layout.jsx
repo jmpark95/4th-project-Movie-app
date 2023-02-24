@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "./Navbar";
-import Toggle from "./Toggle";
+import Navbar from "../components/Navbar";
+import Toggle from "../components/Toggle";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
@@ -9,9 +9,15 @@ export default function Layout() {
          <Navbar />
          <Toggle />
 
+         <br />
          <hr />
+         <br />
+         <br />
 
          <Outlet />
+         <br />
+         <br />
+         <br />
       </div>
    );
 }

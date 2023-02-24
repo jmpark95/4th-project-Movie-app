@@ -101,17 +101,22 @@ export default function Navbar() {
             >
                <IconButton
                   aria-label="logo"
-                  sx={{ padding: 0, mr: 1 }}
+                  sx={{ padding: 0, mr: 1, color: "#e9bbaf" }}
                   disableRipple={true}
                   href="/"
                   color="inherit"
                >
-                  <VideocamIcon style={{ fontSize: 38 }} />
+                  <VideocamIcon
+                     style={{ fontSize: 38, marginRight: "0.3rem" }}
+                  />
                   <Typography
-                     variant="h6"
+                     variant="h5"
                      noWrap
                      component="div"
-                     sx={{ display: { xs: "none", sm: "block" } }}
+                     paddingTop="3px"
+                     sx={{
+                        display: { xs: "none", sm: "block" },
+                     }}
                   >
                      MovieBrowser
                   </Typography>

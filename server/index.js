@@ -42,6 +42,18 @@ app.get("/api/top-rated/:page", async (req, res) => {
     }
 })
 
+app.get("/api/search/:query/:page", async (req, res) => {
+    try {
+        const response = await axios.get(`${process.env.BASE_URL}/search/movie?api_key=${process.env.API_KEY}&query=${req.params.query}&page=${req.params.page}`)
+        res.json(response.data)
+
+    } catch (err) {
+        console.error(err)
+    }
+})
+
+
+
 
 
 app.listen(port, () => {

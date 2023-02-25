@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled } from "@mui/material/styles";
-import { Box, Link } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Box } from "@mui/material";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
    marginTop: theme.spacing(3),
@@ -20,20 +20,13 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
    },
 }));
 
-export default function Toggle() {
-   const [alignment, setAlignment] = useState("left");
-
-   const handleAlignment = (event, newAlignment) => {
-      if (newAlignment !== null) {
-         setAlignment(newAlignment);
-      }
-   };
-
+export default function Toggle({ alignment, handleAlignment }) {
    return (
       <Box
          sx={{
             display: "flex",
             justifyContent: { xs: "center", sm: "flex-start" },
+            marginBottom: "2rem",
          }}
       >
          <StyledToggleButtonGroup
@@ -49,9 +42,7 @@ export default function Toggle() {
                value="left"
                aria-label="left aligned"
             >
-               <Link color="inherit" underline="none">
-                  Now Playing
-               </Link>
+               Now Playing
             </StyledToggleButton>
             <StyledToggleButton
                component={RouterLink}
@@ -59,19 +50,15 @@ export default function Toggle() {
                value="center"
                aria-label="centered"
             >
-               <Link color="inherit" underline="none">
-                  Top Rated
-               </Link>
+               Top Rated
             </StyledToggleButton>
             <StyledToggleButton
                component={RouterLink}
                to="/watchlist"
-               value="rights"
+               value="right"
                aria-label="right aligned"
             >
-               <Link color="inherit" underline="none">
-                  Watchlist
-               </Link>
+               Watchlist
             </StyledToggleButton>
          </StyledToggleButtonGroup>
       </Box>

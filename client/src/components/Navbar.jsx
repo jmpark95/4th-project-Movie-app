@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import {
    AppBar,
@@ -54,9 +55,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
    },
 }));
 
-export default function Navbar() {
+export default function Navbar({ formInput, setFormInput, setAlignment }) {
    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+   const navigate = useNavigate();
 
    const handleMobileMenuClose = () => {
       setMobileMoreAnchorEl(null);
@@ -64,6 +66,12 @@ export default function Navbar() {
 
    const handleMobileMenuOpen = (event) => {
       setMobileMoreAnchorEl(event.currentTarget);
+   };
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      navigate("/search");
+      setAlignment("");
    };
 
    const mobileMenuId = "primary-search-account-menu-mobile";
@@ -82,6 +90,7 @@ export default function Navbar() {
          }}
          open={isMobileMenuOpen}
          onClose={handleMobileMenuClose}
+         sx={{ color: "pink" }}
       >
          <MenuItem>Login</MenuItem>
          <MenuItem>Signup</MenuItem>
@@ -122,15 +131,19 @@ export default function Navbar() {
                   </Typography>
                </IconButton>
 
-               <Search>
-                  <SearchIconWrapper>
-                     <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                     placeholder="Search movie…"
-                     inputProps={{ "aria-label": "search" }}
-                  />
-               </Search>
+               <form onSubmit={handleSubmit}>
+                  <Search>
+                     <SearchIconWrapper>
+                        <SearchIcon />
+                     </SearchIconWrapper>
+                     <StyledInputBase
+                        placeholder="Search movie…"
+                        inputProps={{ "aria-label": "search" }}
+                        value={formInput}
+                        onChange={(e) => setFormInput(e.target.value)}
+                     />
+                  </Search>
+               </form>
 
                <Box
                   sx={{
@@ -140,13 +153,31 @@ export default function Navbar() {
                   }}
                >
                   <Box marginLeft={4}>
-                     <Link href="#" color="inherit" underline="none">
+                     <Link
+                        href="#"
+                        color="inherit"
+                        underline="none"
+                        sx={{
+                           ":hover": {
+                              color: "#e9bbaf",
+                           },
+                        }}
+                     >
                         Login
                      </Link>
                   </Box>
 
                   <Box marginLeft={4}>
-                     <Link href="#" color="inherit" underline="none">
+                     <Link
+                        href="#"
+                        color="inherit"
+                        underline="none"
+                        sx={{
+                           ":hover": {
+                              color: "#e9bbaf",
+                           },
+                        }}
+                     >
                         Signup
                      </Link>
                   </Box>

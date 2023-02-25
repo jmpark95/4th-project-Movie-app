@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
-import MovieCard from "../components/MovieCard";
 import { Box, Button, Container, Grid } from "@mui/material";
 import { useQuery, useInfiniteQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
+import MovieCard from "../components/MovieCard";
 
 export default function Top() {
    const fetchMovies = async ({ pageParam = 1 }) => {

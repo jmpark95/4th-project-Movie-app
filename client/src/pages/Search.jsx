@@ -3,19 +3,24 @@ import axios from "axios";
 import { Box, Button, Container, Grid } from "@mui/material";
 import { useQuery, useInfiniteQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useOutletContext } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 
-export default function Home() {
+export default function Search() {
+   const [formInput, setFormInput] = useOutletContext();
+
    const fetchMovies = async ({ pageParam = 1 }) => {
       return await (
          await fetch(
-            `${import.meta.env.VITE_BACKEND}/api/nowplaying/${pageParam}`
+            `${
+               import.meta.env.VITE_BACKEND
+            }/api/search/${formInput}/${pageParam}`
          )
       ).json();
    };
 
    const { data, error, fetchNextPage, hasNextPage, isFetching, status } =
-      useInfiniteQuery("movieList", fetchMovies, {
+      useInfiniteQuery(["searchList", formInput], fetchMovies, {
          getNextPageParam: (lastPage, pages) => {
             return lastPage.page + 1;
          },
@@ -43,8 +48,7 @@ export default function Home() {
             <CircularProgress color="secondary" />
          </Box>
       );
-   if (status === "error" || errorR)
-      return "An error has occurred: " + error.message;
+   if (status === "error" || errorR) return "An error has occurred: ";
 
    if (status === "success" && isSuccessR) {
       const movies = data.pages.map((page) =>

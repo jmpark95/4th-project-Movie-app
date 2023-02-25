@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Toggle from "../components/Toggle";
-import { Outlet } from "react-router-dom";
 
 export default function Layout() {
+   const [formInput, setFormInput] = useState("");
+   const [alignment, setAlignment] = useState("left");
+
+   const handleAlignment = (event, newAlignment) => {
+      if (newAlignment !== null) {
+         setAlignment(newAlignment);
+      }
+   };
+
    return (
       <div>
-         <Navbar />
-         <Toggle />
+         <div style={{ marginBottom: "2rem" }}>
+            <Navbar
+               formInput={formInput}
+               setFormInput={setFormInput}
+               setAlignment={setAlignment}
+            />
+            <Toggle alignment={alignment} handleAlignment={handleAlignment} />
+            <hr />
+         </div>
 
-         <br />
-         <hr />
-         <br />
-         <br />
-
-         <Outlet />
-         <br />
-         <br />
-         <br />
+         <Outlet context={[formInput, setFormInput]} />
       </div>
    );
 }

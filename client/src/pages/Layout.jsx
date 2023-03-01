@@ -5,23 +5,12 @@ import Toggle from "../components/Toggle";
 
 export default function Layout() {
    const [formInput, setFormInput] = useState("");
-   const [alignment, setAlignment] = useState("left");
-
-   const handleAlignment = (event, newAlignment) => {
-      if (newAlignment !== null) {
-         setAlignment(newAlignment);
-      }
-   };
 
    return (
       <div>
          <div style={{ marginBottom: "2rem" }}>
-            <Navbar
-               formInput={formInput}
-               setFormInput={setFormInput}
-               setAlignment={setAlignment}
-            />
-            <Toggle alignment={alignment} handleAlignment={handleAlignment} />
+            <Navbar formInput={formInput} setFormInput={setFormInput} />
+            <Toggle />
             <hr />
          </div>
 

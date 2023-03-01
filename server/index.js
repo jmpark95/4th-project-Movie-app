@@ -1,61 +1,34 @@
 require('dotenv').config()
-
 const express = require('express')
 const app = express()
 const cors = require("cors")
-const axios = require("axios")
+const mongoose = require('mongoose');
+const PORT = 3000
+const apiRouter = require("./routes/api")
+const authRouter = require("./routes/auth")
+const protectedRouter = require("./routes/protected")
 
-const port = 3000
+//mongo connection
+async function main() {
+    await mongoose.connect(process.env.MONGO_URI);
+}
+mongoose.set("strictQuery", false);
+main()
+    .then(() => { console.log("Connected to database") })
+    .catch(err => console.log(err));
 
-app.use(cors())
+//app
+app.use(cors());
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('index route')
+    res.send('Homepage')
 })
 
-app.get("/api/genrelist", async (req, res) => {
-    try {
-        const response = await axios.get(`${process.env.BASE_URL}/genre/movie/list?api_key=${process.env.API_KEY}`)
-        res.json(response.data.genres)
-    } catch (err) {
-        console.error(err)
-    }
-})
+app.use("/api", apiRouter)
+app.use("/auth", authRouter)
+app.use("/protected", protectedRouter)
 
-app.get("/api/nowplaying/:page", async (req, res) => {
-    try {
-        const response = await axios.get(`${process.env.BASE_URL}/movie/now_playing?api_key=${process.env.API_KEY}&language=en-US&page=${req.params.page}`)
-        res.json(response.data)
-
-    } catch (err) {
-        console.error(err)
-    }
-})
-
-app.get("/api/top-rated/:page", async (req, res) => {
-    try {
-        const response = await axios.get(`${process.env.BASE_URL}/movie/top_rated?api_key=${process.env.API_KEY}&language=en-US&page=${req.params.page}`)
-        res.json(response.data)
-
-    } catch (err) {
-        console.error(err)
-    }
-})
-
-app.get("/api/search/:query/:page", async (req, res) => {
-    try {
-        const response = await axios.get(`${process.env.BASE_URL}/search/movie?api_key=${process.env.API_KEY}&query=${req.params.query}&page=${req.params.page}`)
-        res.json(response.data)
-
-    } catch (err) {
-        console.error(err)
-    }
-})
-
-
-
-
-
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`)
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`App listening on port ${PORT}`)
 })

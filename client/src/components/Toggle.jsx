@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import { ToggleButtonContext } from "../App";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
    marginTop: theme.spacing(3),
@@ -20,7 +21,15 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
    },
 }));
 
-export default function Toggle({ alignment, handleAlignment }) {
+export default function Toggle() {
+   const { alignment, setAlignment } = useContext(ToggleButtonContext);
+
+   const handleAlignment = (event, newAlignment) => {
+      if (newAlignment !== null) {
+         setAlignment(newAlignment);
+      }
+   };
+
    return (
       <Box
          sx={{
@@ -39,24 +48,24 @@ export default function Toggle({ alignment, handleAlignment }) {
             <StyledToggleButton
                component={RouterLink}
                to="/"
-               value="left"
-               aria-label="left aligned"
+               value="now-playing"
+               aria-label="now-playing"
             >
                Now Playing
             </StyledToggleButton>
             <StyledToggleButton
                component={RouterLink}
                to="/top-rated"
-               value="center"
-               aria-label="centered"
+               value="top-rated"
+               aria-label="top-rated"
             >
                Top Rated
             </StyledToggleButton>
             <StyledToggleButton
                component={RouterLink}
                to="/watchlist"
-               value="right"
-               aria-label="right aligned"
+               value="watchlist"
+               aria-label="watchlist"
             >
                Watchlist
             </StyledToggleButton>

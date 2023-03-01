@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import {
    AppBar,
@@ -15,6 +15,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import VideocamIcon from "@mui/icons-material/Videocam";
+import { ToggleButtonContext, UserContext } from "../App";
 
 const Search = styled("div")(({ theme }) => ({
    position: "relative",
@@ -50,15 +51,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       transition: theme.transitions.create("width"),
       width: "100%",
       [theme.breakpoints.up("md")]: {
-         width: "40ch",
+         width: "35ch",
       },
    },
 }));
 
-export default function Navbar({ formInput, setFormInput, setAlignment }) {
+export default function Navbar({ formInput, setFormInput }) {
    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
    const navigate = useNavigate();
+   const { user, setUser } = useContext(UserContext);
+   const { alignment, setAlignment } = useContext(ToggleButtonContext);
 
    const handleMobileMenuClose = () => {
       setMobileMoreAnchorEl(null);
@@ -72,6 +75,23 @@ export default function Navbar({ formInput, setFormInput, setAlignment }) {
       e.preventDefault();
       navigate("/search");
       setAlignment("");
+   };
+
+   const handleLogin = () => {
+      navigate("/login");
+      setAlignment("");
+   };
+
+   const handleSignup = () => {
+      navigate("/signup");
+      setAlignment("");
+   };
+
+   const handleLogout = () => {
+      localStorage.removeItem("user");
+      setUser(JSON.parse(localStorage.getItem("user")));
+      navigate("/");
+      setAlignment("now-playing");
    };
 
    const mobileMenuId = "primary-search-account-menu-mobile";
@@ -92,8 +112,14 @@ export default function Navbar({ formInput, setFormInput, setAlignment }) {
          onClose={handleMobileMenuClose}
          sx={{ color: "pink" }}
       >
-         <MenuItem>Login</MenuItem>
-         <MenuItem>Signup</MenuItem>
+         {user ? (
+            <MenuItem>Welcome, {user.username}</MenuItem>
+         ) : (
+            <div>
+               <MenuItem onClick={handleLogin}>Login</MenuItem>
+               <MenuItem onClick={handleSignup}>Signup</MenuItem>
+            </div>
+         )}
       </Menu>
    );
 
@@ -152,35 +178,62 @@ export default function Navbar({ formInput, setFormInput, setAlignment }) {
                      justifyContent: "flex-end",
                   }}
                >
-                  <Box marginLeft={4}>
-                     <Link
-                        href="#"
-                        color="inherit"
-                        underline="none"
-                        sx={{
-                           ":hover": {
-                              color: "#e9bbaf",
-                           },
-                        }}
-                     >
-                        Login
-                     </Link>
-                  </Box>
+                  {user ? (
+                     <>
+                        <span style={{ paddingRight: "1rem" }}>
+                           Welcome, {user.username}{" "}
+                        </span>
+                        <Box>
+                           <Link
+                              color="inherit"
+                              underline="none"
+                              sx={{
+                                 cursor: "pointer",
+                                 ":hover": {
+                                    color: "#e9bbaf",
+                                 },
+                              }}
+                              onClick={handleLogout}
+                           >
+                              Logout
+                           </Link>
+                        </Box>
+                     </>
+                  ) : (
+                     <>
+                        <Box marginLeft={4}>
+                           <Link
+                              onClick={handleLogin}
+                              color="inherit"
+                              underline="none"
+                              sx={{
+                                 cursor: "pointer",
+                                 ":hover": {
+                                    color: "#e9bbaf",
+                                 },
+                              }}
+                           >
+                              Login
+                           </Link>
+                        </Box>
 
-                  <Box marginLeft={4}>
-                     <Link
-                        href="#"
-                        color="inherit"
-                        underline="none"
-                        sx={{
-                           ":hover": {
-                              color: "#e9bbaf",
-                           },
-                        }}
-                     >
-                        Signup
-                     </Link>
-                  </Box>
+                        <Box marginLeft={4}>
+                           <Link
+                              onClick={handleSignup}
+                              color="inherit"
+                              underline="none"
+                              sx={{
+                                 cursor: "pointer",
+                                 ":hover": {
+                                    color: "#e9bbaf",
+                                 },
+                              }}
+                           >
+                              Signup
+                           </Link>
+                        </Box>
+                     </>
+                  )}
                </Box>
 
                <Box

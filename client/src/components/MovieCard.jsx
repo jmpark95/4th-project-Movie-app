@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, Box, Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
+import { UserContext } from "../App";
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
 
 export default function MovieCard({
    id,
@@ -12,10 +15,27 @@ export default function MovieCard({
    genres,
 }) {
    const [open, setOpen] = useState(false);
+   const { user, setUser } = useContext(UserContext);
+   const imagePath = "https://image.tmdb.org/t/p/original";
+   const queryClient = useQueryClient();
+
    const handleOpen = () => setOpen(true);
    const handleClose = () => setOpen(false);
 
-   const imagePath = "https://image.tmdb.org/t/p/original";
+   const mutation = useMutation(
+      (title) => {
+         axios.post(`${import.meta.env.VITE_BACKEND}/protected/add`, title, {
+            headers: {
+               Authorization: `Bearer ${user.accessToken}`,
+            },
+         });
+      },
+      {
+         onSuccess: () => {
+            queryClient.invalidateQueries("watchlist");
+         },
+      }
+   );
 
    const style = {
       position: "absolute",
@@ -89,7 +109,6 @@ export default function MovieCard({
                   sx={{
                      height: { md: 250 },
                      width: { md: 300 },
-
                      display: { xs: "none", md: "block" },
                   }}
                />
@@ -120,22 +139,47 @@ export default function MovieCard({
                   <Box sx={{ fontSize: { xs: "0.8rem", lg: "0.9rem" } }}>
                      {overview}
                   </Box>
-                  <Button
-                     variant="contained"
-                     sx={{
-                        width: { xs: "80%", sm: "50%", lg: "40%" },
-                        margin: { xs: "auto", md: "0" },
-                        bgcolor: "#e9bbaf",
-                        color: "#424242",
+                  {user ? (
+                     <Button
+                        variant="contained"
+                        onClick={() => {
+                           mutation.mutate({
+                              title,
+                           });
+                        }}
+                        sx={{
+                           width: { xs: "80%", sm: "50%", lg: "40%" },
+                           margin: { xs: "auto", md: "0" },
+                           bgcolor: "#e9bbaf",
+                           color: "#424242",
 
-                        ":hover": {
-                           color: "#ffff",
-                           bgcolor: "#424242",
-                        },
-                     }}
-                  >
-                     Add to Watchlist
-                  </Button>
+                           ":hover": {
+                              color: "#ffff",
+                              bgcolor: "#424242",
+                           },
+                        }}
+                     >
+                        Add to Watchlist
+                     </Button>
+                  ) : (
+                     <Button
+                        variant="contained"
+                        disabled
+                        sx={{
+                           width: { xs: "80%", sm: "50%", lg: "40%" },
+                           margin: { xs: "auto", md: "0" },
+                           fontSize: { xs: "0.6rem", sm: "0.9rem" },
+                           bgcolor: "#e9bbaf",
+                           color: "#424242",
+                           "&.Mui-disabled": {
+                              background: "#6d6d6d",
+                              color: "#1b1b1b",
+                           },
+                        }}
+                     >
+                        Login or Signup to add to watchlist
+                     </Button>
+                  )}
                </Box>
             </Box>
          </Modal>

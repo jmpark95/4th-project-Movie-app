@@ -2,7 +2,7 @@
 
 Movie browsing app built using [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction). Fully responsive on all screen sizes.
 
-    ---
+---
 
 ### Users are able to
 

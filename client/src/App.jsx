@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { createContext, useState } from "react";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { ThemeProvider } from "@mui/material/styles";
 import { Container, CssBaseline } from "@mui/material";
 import { theme } from "./theme";
@@ -64,7 +63,6 @@ export default function App() {
                </Container>
             </ToggleButtonContext.Provider>
          </UserContext.Provider>
-         <ReactQueryDevtools initialIsOpen={false} />
       </ThemeProvider>
    );
 }

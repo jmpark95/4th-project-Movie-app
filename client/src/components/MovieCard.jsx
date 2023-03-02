@@ -146,6 +146,7 @@ export default function MovieCard({
                            mutation.mutate({
                               title,
                            });
+                           alert("Added to watchlist!");
                         }}
                         sx={{
                            width: { xs: "80%", sm: "50%", lg: "40%" },

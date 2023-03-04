@@ -28,6 +28,6 @@ Movie browsing app built using [The Movie Database API](https://developers.themo
 
 1. Material UI: Properly utilise theming, palette, typography to avoid excessive use of sx{} props.
 2. React router: The "learn as you go" mentality was probably not the best idea. I feel like I didn't follow best practices or was just outright wrong in my implementation of client side routing. I definitely should've read the docs or a tutorial before starting. This will be something I'll come back later to fix, or start fresh in my next project.
-3. Backend routing: Again, I need to do some revision here. I feel like I was making random API endpoints and just forcing axios requests to hit the endpoints. Need to revise on how to synchronise the frontend with backend. E.g - the URL of the search results doesn't show up?
-4. Maybe start thinking about using redux
-5. How to fix watchlist bug where users have to click twice to remove movie from watchlist? Come back to this later...
+3. Backend routing: Again, I need to do some revision here. I feel like I was making random API endpoints and just forcing axios requests to hit them. Need to revise on how to synchronise the frontend with backend. E.g - when the user searches for a movie, the URL stays the same.
+4. Start learning redux and see how it can help with future projects
+5. Need to fix watchlist bug where users have to click twice to remove movie from watchlist? Come back to this later...
